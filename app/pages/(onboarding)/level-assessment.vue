@@ -1,74 +1,82 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'onboarding'
-})
+  layout: "onboarding",
+});
 
-const router = useRouter()
+const router = useRouter();
 
 interface Level {
-  id: string
-  level: string
-  title: string
-  description: string
-  examples: string[]
-  gradient: string
+  id: string;
+  level: string;
+  title: string;
+  description: string;
+  examples: string[];
+  gradient: string;
 }
 
 const levels: Level[] = [
   {
-    id: 'beginner',
-    level: 'A1-A2',
-    title: 'Beginner',
-    description: 'I know basic words and phrases',
-    examples: ['Hello', 'My name is...', 'How are you?'],
-    gradient: 'from-green-500 to-emerald-600'
+    id: "beginner",
+    level: "A1-A2",
+    title: "Beginner",
+    description: "I know basic words and phrases",
+    examples: ["Hello", "My name is...", "How are you?"],
+    gradient: "from-green-500 to-emerald-600",
   },
   {
-    id: 'elementary',
-    level: 'A2-B1',
-    title: 'Elementary',
-    description: 'I can have simple conversations',
-    examples: ['I work at...', 'I like to...', 'Can you help me?'],
-    gradient: 'from-cyan-500 to-blue-600'
+    id: "elementary",
+    level: "A2-B1",
+    title: "Elementary",
+    description: "I can have simple conversations",
+    examples: ["I work at...", "I like to...", "Can you help me?"],
+    gradient: "from-cyan-500 to-blue-600",
   },
   {
-    id: 'intermediate',
-    level: 'B1-B2',
-    title: 'Intermediate',
-    description: 'I can discuss various topics',
-    examples: ['In my opinion...', 'The advantage is...', 'I would suggest...'],
-    gradient: 'from-blue-500 to-indigo-600'
+    id: "intermediate",
+    level: "B1-B2",
+    title: "Intermediate",
+    description: "I can discuss various topics",
+    examples: ["In my opinion...", "The advantage is...", "I would suggest..."],
+    gradient: "from-blue-500 to-indigo-600",
   },
   {
-    id: 'upper',
-    level: 'B2-C1',
-    title: 'Upper Intermediate',
-    description: 'I speak fluently but want to improve',
-    examples: ['From my perspective...', 'It\'s worth noting...', 'Having said that...'],
-    gradient: 'from-purple-500 to-violet-600'
+    id: "upper",
+    level: "B2-C1",
+    title: "Upper Intermediate",
+    description: "I speak fluently but want to improve",
+    examples: [
+      "From my perspective...",
+      "It's worth noting...",
+      "Having said that...",
+    ],
+    gradient: "from-purple-500 to-violet-600",
   },
   {
-    id: 'advanced',
-    level: 'C1-C2',
-    title: 'Advanced',
-    description: 'I want to sound more natural',
-    examples: ['Nuanced expressions', 'Idiomatic speech', 'Professional fluency'],
-    gradient: 'from-pink-500 to-rose-600'
-  }
-]
+    id: "advanced",
+    level: "C1-C2",
+    title: "Advanced",
+    description: "I want to sound more natural",
+    examples: [
+      "Nuanced expressions",
+      "Idiomatic speech",
+      "Professional fluency",
+    ],
+    gradient: "from-pink-500 to-rose-600",
+  },
+];
 
-const selectedLevel = ref<string | null>(null)
+const selectedLevel = ref<string | null>(null);
 
 function selectLevel(id: string) {
-  selectedLevel.value = id
+  selectedLevel.value = id;
 }
 
 function handleContinue() {
-  router.push('/learning-preference')
+  router.push("/learning-preference");
 }
 
 function handleTakeTest() {
-  router.push('/learning-preference')
+  router.push("/learning-preference");
 }
 </script>
 
@@ -76,8 +84,11 @@ function handleTakeTest() {
   <div class="space-y-10">
     <!-- Header -->
     <div class="text-center space-y-3 animate-slide-up">
-      <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
-        What's your <span class="text-primary-600 dark:text-primary-400">level</span>?
+      <h1
+        class="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white tracking-tight"
+      >
+        What's your
+        <span class="text-primary-600 dark:text-primary-400">level</span>?
       </h1>
       <p class="text-lg text-gray-600 dark:text-gray-300">
         This helps us create the perfect learning path for you
@@ -93,11 +104,11 @@ function handleTakeTest() {
         :class="[
           selectedLevel === level.id
             ? 'glass-card ring-2 ring-primary-500/50 shadow-xl'
-            : 'glass-subtle hover:bg-white/70 dark:hover:bg-gray-800/50'
+            : 'glass-subtle hover:bg-white/70 dark:hover:bg-gray-800/50',
         ]"
-        :style="{ 
+        :style="{
           animationDelay: `${index * 0.08}s`,
-          animationFillMode: 'forwards'
+          animationFillMode: 'forwards',
         }"
         @click="selectLevel(level.id)"
       >
@@ -108,7 +119,7 @@ function handleTakeTest() {
             :class="[
               selectedLevel === level.id
                 ? `bg-linear-to-br ${level.gradient} text-white shadow-lg`
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 group-hover:scale-105'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 group-hover:scale-105',
             ]"
           >
             {{ level.level }}
@@ -140,7 +151,7 @@ function handleTakeTest() {
             :class="[
               selectedLevel === level.id
                 ? 'border-primary-500 scale-110'
-                : 'border-gray-300 dark:border-gray-600 group-hover:border-primary-400'
+                : 'border-gray-300 dark:border-gray-600 group-hover:border-primary-400',
             ]"
           >
             <Transition
@@ -166,20 +177,27 @@ function handleTakeTest() {
         :class="[
           selectedLevel
             ? 'gradient-primary shadow-xl glow-primary hover:shadow-2xl hover:scale-[1.01] active:scale-[0.99]'
-            : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed'
+            : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed',
         ]"
         @click="handleContinue"
       >
         <span>Continue</span>
-        <span class="i-lucide-arrow-right w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+        <NuxtIcon
+          name="i-lucide-arrow-right"
+          class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+        />
       </button>
 
       <div class="relative py-4">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-200/50 dark:border-gray-700/50" />
+          <div
+            class="w-full border-t border-gray-200/50 dark:border-gray-700/50"
+          />
         </div>
         <div class="relative flex justify-center text-sm">
-          <span class="px-4 text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-full">
+          <span
+            class="px-4 text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-full"
+          >
             or
           </span>
         </div>
@@ -189,7 +207,10 @@ function handleTakeTest() {
         class="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-2xl glass-subtle hover:bg-white/70 dark:hover:bg-gray-800/70 text-gray-700 dark:text-gray-200 font-medium transition-all duration-300"
         @click="handleTakeTest"
       >
-        <span class="i-lucide-clipboard-check w-5 h-5 text-primary-500" />
+        <NuxtIcon
+          name="i-lucide-clipboard-check"
+          class="w-5 h-5 text-primary-500"
+        />
         Take a quick assessment
       </button>
     </div>

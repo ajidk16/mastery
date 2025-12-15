@@ -88,13 +88,17 @@ function confirmSkip() {
             'gradient-primary glow-primary'
           ]"
         >
-          <span
+          <NuxtIcon
             class="w-14 h-14 text-white transition-transform duration-500"
-            :class="[
-              micPermission === 'granted' ? 'i-lucide-check scale-110' :
+            :name="
+              micPermission === 'granted' ? 'i-lucide-check' :
               micPermission === 'denied' ? 'i-lucide-mic-off' :
-              'i-lucide-mic animate-float-slow'
-            ]"
+              'i-lucide-mic'
+            "
+            :class="{
+              'scale-110': micPermission === 'granted',
+              'animate-float-slow': micPermission === 'pending'
+            }"
           />
         </div>
       </div>
@@ -119,19 +123,19 @@ function confirmSkip() {
             <ul class="space-y-3 text-left">
               <li class="flex items-start gap-3 p-3 rounded-xl glass-subtle">
                 <div class="w-8 h-8 rounded-lg bg-linear-to-br from-primary-500 to-indigo-600 flex items-center justify-center shrink-0">
-                  <span class="i-lucide-mic w-4 h-4 text-white" />
+                  <NuxtIcon name="i-lucide-mic" class="w-4 h-4 text-white" />
                 </div>
                 <span class="text-sm text-gray-600 dark:text-gray-300">Practice speaking with AI tutor</span>
               </li>
               <li class="flex items-start gap-3 p-3 rounded-xl glass-subtle">
                 <div class="w-8 h-8 rounded-lg bg-linear-to-br from-secondary-500 to-teal-600 flex items-center justify-center shrink-0">
-                  <span class="i-lucide-check-circle w-4 h-4 text-white" />
+                  <NuxtIcon name="i-lucide-check-circle" class="w-4 h-4 text-white" />
                 </div>
                 <span class="text-sm text-gray-600 dark:text-gray-300">Get real-time pronunciation feedback</span>
               </li>
               <li class="flex items-start gap-3 p-3 rounded-xl glass-subtle">
                 <div class="w-8 h-8 rounded-lg bg-linear-to-br from-purple-500 to-violet-600 flex items-center justify-center shrink-0">
-                  <span class="i-lucide-trending-up w-4 h-4 text-white" />
+                  <NuxtIcon name="i-lucide-trending-up" class="w-4 h-4 text-white" />
                 </div>
                 <span class="text-sm text-gray-600 dark:text-gray-300">Track your fluency progress</span>
               </li>
@@ -145,8 +149,8 @@ function confirmSkip() {
               @click="requestMicPermission"
             >
               <div class="absolute inset-0 animate-shimmer opacity-30" />
-              <span v-if="isRequesting" class="i-lucide-loader-2 w-6 h-6 animate-spin" />
-              <span v-else class="i-lucide-mic w-6 h-6" />
+              <NuxtIcon v-if="isRequesting" name="i-lucide-loader-2" class="w-6 h-6 animate-spin" />
+              <NuxtIcon v-else name="i-lucide-mic" class="w-6 h-6" />
               <span class="relative">{{ isRequesting ? 'Requesting...' : 'Enable Microphone' }}</span>
             </button>
 
@@ -176,7 +180,7 @@ function confirmSkip() {
           >
             <div class="absolute inset-0 animate-shimmer opacity-30" />
             <span class="relative">Start Learning</span>
-            <span class="relative i-lucide-arrow-right w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
+            <NuxtIcon name="i-lucide-arrow-right" class="relative w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </div>
 
@@ -184,7 +188,7 @@ function confirmSkip() {
         <div v-else key="denied" class="space-y-8">
           <div class="p-6 rounded-3xl bg-red-50/80 dark:bg-red-950/30 backdrop-blur-sm border border-red-200/50 dark:border-red-800/30 max-w-md mx-auto">
             <h3 class="font-bold text-red-600 dark:text-red-400 mb-3 flex items-center justify-center gap-2">
-              <span class="i-lucide-alert-circle w-5 h-5" />
+              <NuxtIcon name="i-lucide-alert-circle" class="w-5 h-5" />
               Microphone access denied
             </h3>
             <p class="text-sm text-red-600/80 dark:text-red-400/80">
@@ -197,7 +201,7 @@ function confirmSkip() {
               class="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-2xl glass-subtle hover:bg-white/70 dark:hover:bg-gray-800/70 text-gray-700 dark:text-gray-200 font-semibold transition-all duration-300"
               @click="requestMicPermission"
             >
-              <span class="i-lucide-refresh-cw w-5 h-5" />
+              <NuxtIcon name="i-lucide-refresh-cw" class="w-5 h-5" />
               Try Again
             </button>
 

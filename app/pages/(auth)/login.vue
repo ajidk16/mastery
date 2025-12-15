@@ -1,18 +1,18 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'auth'
-})
+  layout: "auth",
+});
 
-const email = ref('')
-const password = ref('')
-const rememberMe = ref(false)
-const isLoading = ref(false)
-const showPassword = ref(false)
+const email = ref("");
+const password = ref("");
+const rememberMe = ref(false);
+const isLoading = ref(false);
+const showPassword = ref(false);
 
 async function handleLogin() {
-  isLoading.value = true
-  await new Promise(resolve => setTimeout(resolve, 1500))
-  isLoading.value = false
+  isLoading.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  isLoading.value = false;
 }
 </script>
 
@@ -20,7 +20,9 @@ async function handleLogin() {
   <div class="space-y-8">
     <!-- Header -->
     <div class="text-center space-y-3">
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+      <h1
+        class="text-4xl font-bold text-gray-900 dark:text-white tracking-tight"
+      >
         Welcome back
       </h1>
       <p class="text-gray-500 dark:text-gray-400 text-lg">
@@ -48,15 +50,18 @@ async function handleLogin() {
         <!-- Password -->
         <NuxtFormField name="password" size="lg">
           <!-- <template #label> -->
-            <label for="password" class="flex items-center justify-between w-full mb-1">
-              <span>Password</span>
-              <NuxtLink
-                to="/forgot-password"
-                class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"
-              >
-                Forgot password?
-              </NuxtLink>
-            </label>
+          <label
+            for="password"
+            class="flex items-center justify-between w-full mb-1"
+          >
+            <span>Password</span>
+            <NuxtLink
+              to="/forgot-password"
+              class="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors"
+            >
+              Forgot password?
+            </NuxtLink>
+          </label>
           <!-- </template> -->
           <NuxtInput
             id="password"
@@ -84,7 +89,10 @@ async function handleLogin() {
         <!-- Remember me -->
         <div class="flex items-center gap-3">
           <NuxtCheckbox id="remember" v-model="rememberMe" />
-          <label for="remember" class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none">
+          <label
+            for="remember"
+            class="text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none"
+          >
             Remember me for 30 days
           </label>
         </div>
@@ -99,7 +107,9 @@ async function handleLogin() {
         >
           <span class="flex items-center gap-2">
             Sign in
-            <span class="i-lucide-arrow-right w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <span
+              class="i-lucide-arrow-right w-5 h-5 transition-transform group-hover:translate-x-1"
+            />
           </span>
         </NuxtButton>
       </form>
@@ -107,10 +117,14 @@ async function handleLogin() {
       <!-- Divider -->
       <div class="relative my-8">
         <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-200/50 dark:border-gray-700/50" />
+          <div
+            class="w-full border-t border-gray-200/50 dark:border-gray-700/50"
+          />
         </div>
         <div class="relative flex justify-center text-sm">
-          <span class="px-4 text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-full">
+          <span
+            class="px-4 text-gray-500 dark:text-gray-400 bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-full"
+          >
             Or continue with
           </span>
         </div>
