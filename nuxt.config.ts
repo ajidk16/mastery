@@ -6,7 +6,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   ui: {
     prefix: 'Nuxt',
-    fonts: false,
-    colorMode: false,
+    // fonts: false,
+    // colorMode: false,
+  },
+  icon: {
+    collections: ['lucide', 'simple-icons']
   }
 })
