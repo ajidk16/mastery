@@ -1,168 +1,272 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'dashboard'
-})
+  layout: "dashboard",
+});
 
-const prompt = "Describe your ideal vacation destination."
-const userText = ref('')
-const isSubmitting = ref(false)
-const showResult = ref(false)
-const feedbackLevel = ref<'summary' | 'detailed'>('summary')
-
-const rewriteSuggestion = "I would love to visit Japan because I have a strong interest in anime culture and enjoy Japanese cuisine."
-
-const feedback = {
-  original: "I want go to Japan because I like anime and food.",
-  // Soft highlight using yellow/orange instead of red/green
-  corrected: "I want <span class='bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded mx-0.5 border-b-2 border-yellow-400'>to</span> go to Japan because I like anime and <span class='bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded mx-0.5 border-b-2 border-yellow-400'>the</span> food.",
-  tips: [
-      { type: 'Grammar', text: "Use 'to' after 'want' (want to go)" },
-      { type: 'Style', text: "Be specific: 'the food' sounds more natural here." }
-  ]
+// Types
+interface WritingPrompt {
+  id: number;
+  title: string;
+  description: string;
+  category: "Essay" | "Email" | "Story" | "Review";
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  wordLimit: string;
+  timeLimit: string;
+  completed: boolean;
 }
 
-function submitWriting() {
-  isSubmitting.value = true
-  setTimeout(() => {
-    isSubmitting.value = false
-    showResult.value = true
-  }, 1500)
+// Writing prompts data
+const prompts: WritingPrompt[] = [
+  {
+    id: 1,
+    title: "Describe Your Favorite Place",
+    description: "Write a descriptive paragraph about a place that holds special meaning to you.",
+    category: "Essay",
+    difficulty: "Beginner",
+    wordLimit: "100-150",
+    timeLimit: "10 mins",
+    completed: true,
+  },
+  {
+    id: 2,
+    title: "Professional Email Request",
+    description: "Write an email to your manager requesting time off for a personal matter.",
+    category: "Email",
+    difficulty: "Intermediate",
+    wordLimit: "80-120",
+    timeLimit: "8 mins",
+    completed: false,
+  },
+  {
+    id: 3,
+    title: "Continue The Story",
+    description: "Read the opening paragraph and continue the narrative creatively.",
+    category: "Story",
+    difficulty: "Advanced",
+    wordLimit: "200-300",
+    timeLimit: "15 mins",
+    completed: false,
+  },
+  {
+    id: 4,
+    title: "Restaurant Review",
+    description: "Write a balanced review of a restaurant you've visited recently.",
+    category: "Review",
+    difficulty: "Intermediate",
+    wordLimit: "150-200",
+    timeLimit: "12 mins",
+    completed: false,
+  },
+];
+
+const categoryIcons: Record<string, string> = {
+  Essay: "i-lucide-file-text",
+  Email: "i-lucide-mail",
+  Story: "i-lucide-book-open",
+  Review: "i-lucide-star",
+};
+
+const difficultyColors: Record<string, string> = {
+  Beginner: "success",
+  Intermediate: "warning",
+  Advanced: "error",
+};
+
+// Writing session state
+const selectedPrompt = ref<WritingPrompt | null>(null);
+const userText = ref("");
+const isSubmitting = ref(false);
+
+const wordCount = computed(() => {
+  if (!userText.value.trim()) return 0;
+  return userText.value.trim().split(/\s+/).length;
+});
+
+function selectPrompt(prompt: WritingPrompt) {
+  selectedPrompt.value = prompt;
+  userText.value = "";
+}
+
+function cancelWriting() {
+  selectedPrompt.value = null;
+  userText.value = "";
+}
+
+async function submitWriting() {
+  if (!selectedPrompt.value || wordCount.value < 10) return;
+  isSubmitting.value = true;
+  // Simulate API submission
+  await new Promise((r) => setTimeout(r, 2000));
+  isSubmitting.value = false;
+  selectedPrompt.value = null;
+  userText.value = "";
 }
 </script>
 
 <template>
-  <div class="h-[calc(100vh-8rem)] flex flex-col relative">
-    
-    <!-- Header (fades out when writing starts) -->
-    <Transition leave-active-class="duration-500 ease-in" leave-to-class="opacity-0 -translate-y-4">
-        <div v-if="!userText && !showResult" class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Writing Focus</h1>
-            <p class="text-gray-500 dark:text-gray-400">Express yourself freely. We'll help with the polish later.</p>
-        </div>
-    </Transition>
-
-    <div class="flex-1 flex gap-8 min-h-0 relative">
-        <!-- Main Editor Area -->
-        <div 
-            class="flex-1 flex flex-col transition-all duration-700 ease-in-out"
-            :class="showResult ? 'max-w-xl' : 'max-w-3xl mx-auto w-full'"
-        >
-             <!-- Prompt Card -->
-             <div class="mb-6 p-6 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm">
-                 <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-2">Today's Prompt</p>
-                 <p class="text-xl md:text-2xl font-serif text-gray-800 dark:text-gray-200 leading-relaxed">
-                    "{{ prompt }}"
-                 </p>
-             </div>
-
-             <!-- Editor -->
-             <div class="flex-1 relative group">
-                <textarea 
-                  v-model="userText"
-                  class="w-full h-full bg-transparent resize-none outline-hidden text-lg md:text-xl leading-loose text-gray-800 dark:text-gray-300 placeholder-gray-300 dark:placeholder-gray-700"
-                  placeholder="Start writing..."
-                  :disabled="showResult"
-                  spellcheck="false"
-                ></textarea>
-                
-                <!-- Focus Mode Indicator -->
-                <div v-if="userText && !showResult" class="absolute bottom-4 right-4 text-xs text-gray-300 transition-opacity opacity-0 group-hover:opacity-100">
-                    Focus Mode Active
-                </div>
-             </div>
-             
-             <!-- Action Bar -->
-             <div class="pt-6 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
-                 <span class="text-sm text-gray-400 font-medium">{{ userText.length }} characters</span>
-                 
-                 <div class="flex gap-4">
-                     <NuxtButton 
-                        v-if="showResult"
-                        @click="showResult = false" 
-                        variant="ghost" 
-                        class="text-gray-500"
-                     >
-                        Edit text
-                     </NuxtButton>
-
-                     <NuxtButton 
-                        v-if="!showResult"
-                        @click="submitWriting" 
-                        size="lg"
-                        class="gradient-primary px-8 shadow-lg shadow-primary-500/20 hover:shadow-primary-500/30 transition-all rounded-full"
-                        :loading="isSubmitting"
-                        :disabled="userText.length < 10"
-                     >
-                        Get Feedback
-                     </NuxtButton>
-                 </div>
-             </div>
-        </div>
-
-        <!-- Feedback Sidebar (Slides in) -->
-        <Transition
-            enter-active-class="transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-            enter-from-class="translate-x-full opacity-0 w-0"
-            enter-to-class="translate-x-0 opacity-100 w-96 pl-8"
-            leave-active-class="transition-all duration-500 ease-in"
-            leave-from-class="translate-x-0 opacity-100 w-96 pl-8"
-            leave-to-class="translate-x-full opacity-0 w-0"
-        >
-            <div v-if="showResult" class="w-96 pl-8 border-l border-gray-100 dark:border-gray-800 overflow-y-auto">
-                 <div class="sticky top-0 space-y-8">
-                     <!-- Feedback Tabs (Gradual) -->
-                     <div class="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-xl">
-                         <button 
-                            @click="feedbackLevel = 'summary'"
-                            class="flex-1 py-2 text-sm font-medium rounded-lg transition-all"
-                            :class="feedbackLevel === 'summary' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 hover:text-gray-900'"
-                         >
-                            Overview
-                         </button>
-                         <button 
-                            @click="feedbackLevel = 'detailed'"
-                            class="flex-1 py-2 text-sm font-medium rounded-lg transition-all"
-                            :class="feedbackLevel === 'detailed' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 hover:text-gray-900'"
-                         >
-                            Details
-                         </button>
-                     </div>
-
-                     <!-- Rewrite Suggestion (Friendly) -->
-                     <div class="p-6 rounded-2xl bg-linear-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-100 dark:border-indigo-900/30">
-                         <h4 class="text-sm font-bold text-indigo-900 dark:text-indigo-200 mb-3 flex items-center gap-2">
-                            <NuxtIcon name="i-lucide-sparkles" class="w-4 h-4" />
-                            A Smoother Way to Say It
-                         </h4>
-                         <p class="text-indigo-800 dark:text-indigo-100 leading-relaxed text-sm">
-                            "{{ rewriteSuggestion }}"
-                         </p>
-                     </div>
-
-                     <div v-if="feedbackLevel === 'detailed'" class="space-y-4 animate-slide-up">
-                         <h4 class="font-bold text-gray-900 dark:text-white">Suggestions</h4>
-                         <div 
-                            v-for="(tip, idx) in feedback.tips" 
-                            :key="idx"
-                            class="p-4 rounded-xl border border-yellow-200 dark:border-yellow-900/30 bg-yellow-50 dark:bg-yellow-900/10"
-                         >
-                             <span class="text-xs font-bold text-yellow-700 dark:text-yellow-500 uppercase tracking-wide mb-1 block">{{ tip.type }}</span>
-                             <p class="text-sm text-gray-700 dark:text-gray-300">{{ tip.text }}</p>
-                         </div>
-                     </div>
-                     
-                     <div v-else class="space-y-4 animate-slide-up">
-                        <div class="text-center p-8">
-                            <div class="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mx-auto mb-4">
-                                <span class="text-2xl font-bold text-green-600 dark:text-green-400">Great</span>
-                            </div>
-                            <p class="text-gray-500 text-sm">Your message is clear! A few small tweaks style will make it shine.</p>
-                        </div>
-                     </div>
-
-                 </div>
-            </div>
-        </Transition>
+  <div class="space-y-8 animate-fade-in">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div class="space-y-1">
+        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+          Writing Laboratory
+        </h1>
+        <p class="text-gray-500 dark:text-gray-400">
+          Improve your writing with AI-powered feedback
+        </p>
+      </div>
+      <NuxtButton to="/practice" color="neutral" variant="ghost" leading-icon="i-lucide-arrow-left">
+        Back to Practice
+      </NuxtButton>
     </div>
+
+    <!-- Writing Interface (when prompt selected) -->
+    <template v-if="selectedPrompt">
+      <NuxtCard variant="outline" :ui="{ body: 'p-6' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                <NuxtIcon :name="categoryIcons[selectedPrompt.category]" class="w-5 h-5 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <h2 class="font-bold text-gray-900 dark:text-white">{{ selectedPrompt.title }}</h2>
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                  <NuxtBadge :color="difficultyColors[selectedPrompt.difficulty] as any" variant="subtle" size="xs">
+                    {{ selectedPrompt.difficulty }}
+                  </NuxtBadge>
+                  <span>•</span>
+                  <span>{{ selectedPrompt.wordLimit }} words</span>
+                  <span>•</span>
+                  <span>{{ selectedPrompt.timeLimit }}</span>
+                </div>
+              </div>
+            </div>
+            <NuxtButton color="neutral" variant="ghost" icon="i-lucide-x" @click="cancelWriting" />
+          </div>
+        </template>
+
+        <div class="space-y-4">
+          <div class="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+              <strong>Prompt:</strong> {{ selectedPrompt.description }}
+            </p>
+          </div>
+
+          <NuxtTextarea
+            v-model="userText"
+            placeholder="Start writing here..."
+            :rows="10"
+            class="w-full"
+            autofocus
+          />
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4 text-sm">
+              <span :class="wordCount >= 10 ? 'text-green-600 dark:text-green-400' : 'text-gray-400'">
+                <NuxtIcon name="i-lucide-text-cursor" class="w-4 h-4 inline mr-1" />
+                {{ wordCount }} words
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <NuxtButton color="neutral" variant="outline" @click="cancelWriting">
+                Cancel
+              </NuxtButton>
+              <NuxtButton
+                color="primary"
+                :loading="isSubmitting"
+                :disabled="wordCount < 10"
+                @click="submitWriting"
+              >
+                <NuxtIcon name="i-lucide-send" class="w-4 h-4 mr-2" />
+                Submit for Review
+              </NuxtButton>
+            </div>
+          </div>
+        </div>
+      </NuxtCard>
+    </template>
+
+    <!-- Prompt Selection Grid -->
+    <template v-else>
+      <!-- Quick Tips -->
+      <div class="glass-card p-6 rounded-2xl border-l-4 border-l-purple-500">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center shrink-0">
+            <NuxtIcon name="i-lucide-lightbulb" class="w-5 h-5 text-purple-600 dark:text-purple-400" />
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-1">Writing Tips</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              Focus on clarity and structure. Our AI will provide instant feedback on grammar, vocabulary, and style.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prompts Grid -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Choose a Writing Prompt</h2>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div
+            v-for="prompt in prompts"
+            :key="prompt.id"
+            class="group glass-card p-6 rounded-2xl transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1 hover:border-purple-500/30"
+            @click="selectPrompt(prompt)"
+          >
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-purple-100 dark:bg-purple-900/30 group-hover:scale-110 transition-transform">
+                <NuxtIcon :name="categoryIcons[prompt.category]" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div class="flex items-center gap-2">
+                <NuxtBadge :color="difficultyColors[prompt.difficulty] as any" variant="subtle" size="xs">
+                  {{ prompt.difficulty }}
+                </NuxtBadge>
+                <NuxtIcon
+                  v-if="prompt.completed"
+                  name="i-lucide-check-circle-2"
+                  class="w-5 h-5 text-green-500"
+                />
+              </div>
+            </div>
+
+            <h3 class="font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              {{ prompt.title }}
+            </h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
+              {{ prompt.description }}
+            </p>
+
+            <div class="flex items-center justify-between text-xs text-gray-400">
+              <span class="flex items-center gap-1">
+                <NuxtIcon name="i-lucide-text-cursor" class="w-3 h-3" />
+                {{ prompt.wordLimit }} words
+              </span>
+              <span class="flex items-center gap-1">
+                <NuxtIcon name="i-lucide-clock" class="w-3 h-3" />
+                {{ prompt.timeLimit }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
+
+<style scoped>
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
