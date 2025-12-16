@@ -3,54 +3,31 @@ definePageMeta({
   layout: 'dashboard'
 })
 
-const vocabList = [
-  { 
-      word: 'Serendipity', 
-      phonetic: '/ˌser.ənˈdɪp.ə.ti/',
-      type: 'noun',
-      definition: 'The fact of finding interesting or valuable things by chance.', 
-      context: 'Meeting my best friend at the airport was pure <span class="text-primary-600 font-bold">serendipity</span>.', 
-      mastery: 2, // 1-3
-      isPlaying: false
-  },
-  { 
-      word: 'Ephemeral', 
-       phonetic: '/ɪˈfem.ər.əl/',
-      type: 'adjective',
-      definition: 'Lasting for a very short time.', 
-      context: 'Fashion trends are often <span class="text-primary-600 font-bold">ephemeral</span>.', 
-      mastery: 1, 
-      isPlaying: false
-  },
-   { 
-      word: 'Resilient', 
-      phonetic: '/rɪˈzɪl.jənt/',
-      type: 'adjective',
-      definition: 'Able to withstand or recover quickly from difficult conditions.', 
-      context: 'She is remarkably <span class="text-primary-600 font-bold">resilient</span> despite the setbacks.', 
-      mastery: 3, 
-      isPlaying: false
-  }
-]
+const { vocabList: allVocab } = useVocabulary()
+
+// Mock "Daily Deck" - in reality this would be smarter logic
+const vocabList = computed(() => allVocab.value.slice(0, 3))
 
 // State to track current card index
 const activeIndex = ref(0)
 const isFlipped = ref(false)
 
-const currentCard = computed(() => vocabList[activeIndex.value])
+const currentCard = computed(() => vocabList.value[activeIndex.value])
 
 function nextCard() {
     isFlipped.value = false
     setTimeout(() => {
-        activeIndex.value = (activeIndex.value + 1) % vocabList.length
+        activeIndex.value = (activeIndex.value + 1) % vocabList.value.length
     }, 300)
 }
 
 function playAudio() {
-    currentCard.value.isPlaying = true
-    setTimeout(() => {
-        currentCard.value.isPlaying = false
-    }, 1500)
+    if (currentCard.value) {
+        currentCard.value.isPlaying = true
+        setTimeout(() => {
+            currentCard.value.isPlaying = false
+        }, 1500)
+    }
 }
 </script>
 
@@ -118,9 +95,9 @@ function playAudio() {
                         </div>
                      </div>
                      
-                     <NuxtButton @click.stop="nextCard" size="lg" class="gradient-primary px-6 rounded-full shadow-lg shadow-primary-500/20">
+                     <UButton @click.stop="nextCard" size="lg" class="gradient-primary px-6 rounded-full shadow-lg shadow-primary-500/20">
                         Next Word
-                     </NuxtButton>
+                     </UButton>
                  </div>
              </div>
         </div>
@@ -128,9 +105,9 @@ function playAudio() {
     
     <!-- Review CTA -->
     <div class="text-center pb-4 animate-slide-up">
-        <button class="text-sm font-medium text-gray-500 hover:text-primary-600 transition-colors underline decoration-dotted underline-offset-4">
+        <NuxtLink to="/vocabulary/list" class="text-sm font-medium text-gray-500 hover:text-primary-600 transition-colors underline decoration-dotted underline-offset-4">
             View full vocabulary list
-        </button>
+        </NuxtLink>
     </div>
   </div>
 </template>
