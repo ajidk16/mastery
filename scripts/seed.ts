@@ -45,16 +45,106 @@ const runSeed = async () => {
     // Insert Vocabulary
     console.log('📖 Inserting vocabulary...');
     const vocabData = [
-      { word: 'ephemeral', definition: 'Lasting for a very short time.', contextSentence: 'Fashions are ephemeral, changing with every season.', difficulty: 'advanced' as const },
-      { word: 'serendipity', definition: 'The occurrence and development of events by chance in a happy or beneficial way.', contextSentence: 'The discovery of penicillin was a stroke of serendipity.', difficulty: 'advanced' as const },
-      { word: 'resilient', definition: 'Able to withstand or recover quickly from difficult conditions.', contextSentence: 'Babies are generally more resilient than they look.', difficulty: 'intermediate' as const },
-      { word: 'eloquent', definition: 'Fluent or persuasive in speaking or writing.', contextSentence: 'An eloquent speech that moved the audience to tears.', difficulty: 'intermediate' as const },
-      { word: 'pragmatic', definition: 'Dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations.', contextSentence: 'A pragmatic approach to politics.', difficulty: 'advanced' as const },
-      { word: 'nostalgia', definition: 'A sentimental longing or wistful affection for the past.', contextSentence: 'I was overcome with acute nostalgia for my days at university.', difficulty: 'intermediate' as const },
-      { word: 'meticulous', definition: 'Showing great attention to detail; very careful and precise.', contextSentence: 'He had always been so meticulous about his appearance.', difficulty: 'advanced' as const },
-      { word: 'diligent', definition: 'Having or showing care and conscientiousness in one\'s work.', contextSentence: 'Many diligent researchers have already investigated this problem.', difficulty: 'intermediate' as const },
-      { word: 'innovative', definition: 'Featuring new methods; advanced and original.', contextSentence: 'Innovative designs for folding bicycles.', difficulty: 'beginner' as const },
-      { word: 'authentic', definition: 'Of undisputed origin; genuine.', contextSentence: 'The letter is now accepted as an authentic document.', difficulty: 'beginner' as const },
+      { 
+        word: 'ephemeral', 
+        definition: 'Lasting for a very short time.', 
+        contextSentence: 'Fashions are ephemeral, changing with every season.', 
+        phonetic: '/əˈfem(ə)rəl/', 
+        type: 'adjective', 
+        example: 'The ephemeral nature of fame.', 
+        category: 'Academic', 
+        difficulty: 'advanced' as const 
+      },
+      { 
+        word: 'serendipity', 
+        definition: 'The occurrence and development of events by chance in a happy or beneficial way.', 
+        contextSentence: 'The discovery of penicillin was a stroke of serendipity.', 
+        phonetic: '/ˌserənˈdipədē/', 
+        type: 'noun', 
+        example: 'We found the restaurant by pure serendipity.', 
+        category: 'General', 
+        difficulty: 'advanced' as const 
+      },
+      { 
+        word: 'resilient', 
+        definition: 'Able to withstand or recover quickly from difficult conditions.', 
+        contextSentence: 'Babies are generally more resilient than they look.', 
+        phonetic: '/rəˈzilyənt/', 
+        type: 'adjective', 
+        example: 'The fish are resilient to most infections.', 
+        category: 'Personality', 
+        difficulty: 'intermediate' as const 
+      },
+      { 
+        word: 'eloquent', 
+        definition: 'Fluent or persuasive in speaking or writing.', 
+        contextSentence: 'An eloquent speech that moved the audience to tears.', 
+        phonetic: '/ˈeləkwənt/', 
+        type: 'adjective', 
+        example: 'She was an eloquent speaker.', 
+        category: 'Communication', 
+        difficulty: 'intermediate' as const 
+      },
+      { 
+        word: 'pragmatic', 
+        definition: 'Dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations.', 
+        contextSentence: 'A pragmatic approach to politics.', 
+        phonetic: '/praɡˈmadik/', 
+        type: 'adjective', 
+        example: 'We need to be pragmatic about our chances.', 
+        category: 'Business', 
+        difficulty: 'advanced' as const 
+      },
+      { 
+        word: 'nostalgia', 
+        definition: 'A sentimental longing or wistful affection for the past.', 
+        contextSentence: 'I was overcome with acute nostalgia for my days at university.', 
+        phonetic: '/näˈstaljə/', 
+        type: 'noun', 
+        example: 'She was filled with nostalgia for her childhood.', 
+        category: 'Emotion', 
+        difficulty: 'intermediate' as const 
+      },
+      { 
+        word: 'meticulous', 
+        definition: 'Showing great attention to detail; very careful and precise.', 
+        contextSentence: 'He had always been so meticulous about his appearance.', 
+        phonetic: '/məˈtikyələs/', 
+        type: 'adjective', 
+        example: 'The trip involved meticulous planning.', 
+        category: 'personality', 
+        difficulty: 'advanced' as const 
+      },
+      { 
+        word: 'diligent', 
+        definition: 'Having or showing care and conscientiousness in one\'s work.', 
+        contextSentence: 'Many diligent researchers have already investigated this problem.', 
+        phonetic: '/ˈdiləjənt/', 
+        type: 'adjective', 
+        example: 'She is a diligent student.', 
+        category: 'Academic', 
+        difficulty: 'intermediate' as const 
+      },
+      { 
+        word: 'innovative', 
+        definition: 'Featuring new methods; advanced and original.', 
+        contextSentence: 'Innovative designs for folding bicycles.', 
+        phonetic: '/ˈinəˌvādiv/', 
+        type: 'adjective', 
+        example: 'He gave an innovative talk on renewable energy.', 
+        category: 'Technology', 
+        difficulty: 'beginner' as const 
+      },
+      { 
+        word: 'authentic', 
+        definition: 'Of undisputed origin; genuine.', 
+        contextSentence: 'The letter is now accepted as an authentic document.', 
+        phonetic: '/ôˈTHen(t)ik/', 
+        type: 'adjective', 
+        example: 'The restaurant serves authentic Italian food.', 
+        category: 'General', 
+        difficulty: 'beginner' as const 
+      },
     ];
 
     const insertedVocab = await db.insert(vocabulary).values(vocabData).returning();

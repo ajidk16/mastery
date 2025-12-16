@@ -4,25 +4,71 @@ definePageMeta({
 })
 
 const route = useRoute()
-const { getWordById } = useVocabulary()
+const { getWordById, generateScenario } = useVocabulary()
 
-const word = computed(() => getWordById(route.params.slug as string))
+// Fetch word data
+const { data: word, pending } = await useAsyncData(`vocab-${route.params.slug}`, () => getWordById(route.params.slug as string))
 
-// Redirect if not found (simple handling)
-if (!word.value) {
-  // In a real app, maybe navigateTo('/vocabulary/list')
-}
-
-// Mock play audio
+// Mock play audio - verify if browser supports SpeechSynthesis
 const isPlaying = ref(false)
 function playAudio() {
-  isPlaying.value = true
-  setTimeout(() => isPlaying.value = false, 1500)
+  if (!word.value) return
+  
+  if ('speechSynthesis' in window) {
+      isPlaying.value = true
+      const synth = window.speechSynthesis
+      const utterance = new SpeechSynthesisUtterance(word.value.word)
+      
+      utterance.onend = () => {
+          isPlaying.value = false
+      }
+      
+      const voices = synth.getVoices()
+      // Preferred order: Daniel -> Google US English -> any en-US -> first available
+      const preferredVoice = voices.find((v) => v.name === "Daniel") || 
+                             voices.find((v) => v.name === "Google US English") ||
+                             voices.find((voice) => voice.lang === "en-US") || 
+                             voices[0];
+
+      if (preferredVoice) {
+        utterance.voice = preferredVoice
+      }
+      
+      synth.speak(utterance)
+      
+      // Fallback if event doesn't fire
+      setTimeout(() => isPlaying.value = false, 2000)
+  } else {
+      // Fallback visual feedback
+      isPlaying.value = true
+      setTimeout(() => isPlaying.value = false, 1500)
+  }
+}
+
+// AI Scenario
+const scenario = ref('')
+const loadingScenario = ref(false)
+
+async function startScenario() {
+    if (!word.value) return
+    loadingScenario.value = true
+    try {
+        const res = await generateScenario(word.value.word)
+        scenario.value = res.scenario
+    } catch (e) {
+        console.error(e)
+        scenario.value = "Failed to generate scenario. Please try again."
+    } finally {
+        loadingScenario.value = false
+    }
 }
 </script>
 
 <template>
-  <div v-if="word" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
+  <div v-if="pending" class="flex justify-center py-20">
+      <UIcon name="i-lucide-loader-2" class="animate-spin w-10 h-10 text-primary-500" />
+  </div>
+  <div v-else-if="word" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
     <!-- Breadcrumb / Back -->
     <div class="flex items-center gap-2 text-sm text-gray-500">
       <NuxtLink to="/vocabulary/list" class="hover:text-primary-600 transition-colors flex items-center gap-1">
@@ -86,6 +132,12 @@ function playAudio() {
             </div>
           </div>
         </div>
+        
+        <!-- Generated Scenario Output -->
+        <div v-if="scenario" class="bg-indigo-50 dark:bg-indigo-900/20 rounded-3xl p-8 border border-indigo-100 dark:border-indigo-800 animate-fade-in">
+             <h3 class="text-sm font-bold text-indigo-500 uppercase tracking-widest mb-4">AI Generated Conversastion</h3>
+             <pre class="whitespace-pre-wrap font-sans text-gray-700 dark:text-gray-300">{{ scenario }}</pre>
+        </div>
       </div>
 
       <!-- Sidebar / Stats -->
@@ -109,7 +161,16 @@ function playAudio() {
             <h3 class="font-bold text-lg">AI Scenario</h3>
             <p class="text-white/80 text-sm">Generate a conversation utilizing this word.</p>
           </div>
-          <UButton color="white" variant="solid" block class="text-indigo-600">Start Scenario</UButton>
+          <UButton 
+            :loading="loadingScenario"
+            @click="startScenario" 
+            color="white" 
+            variant="solid" 
+            block 
+            class="text-indigo-600"
+          >
+            {{ loadingScenario ? 'Generating...' : 'Start Scenario' }}
+          </UButton>
         </div>
       </div>
     </div>

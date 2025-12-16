@@ -20,6 +20,10 @@ export const vocabulary = pgTable('vocabulary', {
   word: text('word').notNull().unique(),
   definition: text('definition').notNull(),
   contextSentence: text('context_sentence'),
+  phonetic: text('phonetic'),
+  type: text('type'),
+  example: text('example'),
+  category: text('category'),
   difficulty: difficultyEnum('difficulty').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });

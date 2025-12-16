@@ -47,7 +47,7 @@ const filteredVocab = computed(() => {
     </div>
 
     <!-- Grid Layout -->
-    <div v-if="filteredVocab.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div v-if="filteredVocab && filteredVocab.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <NuxtLink 
         v-for="(item, index) in filteredVocab" 
         :key="item.id" 
