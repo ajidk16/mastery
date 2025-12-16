@@ -25,24 +25,24 @@ async function saveSecurity() {
   <div class="space-y-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Security</h2>
     
-    <UCard>
+    <NuxtCard>
       <div class="space-y-4">
-        <UButton variant="outline" color="gray" block icon="i-lucide-key-round" class="justify-between">
+        <NuxtButton variant="outline" block icon="i-lucide-key-round" class="justify-between">
           Change Password
           <NuxtIcon name="i-lucide-chevron-right" class="w-4 h-4" />
-        </UButton>
+        </NuxtButton>
         
         <div class="flex items-center justify-between py-2">
           <div>
             <p class="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</p>
             <p class="text-sm text-gray-500">Add an extra layer of security.</p>
           </div>
-          <UToggle v-model="security.twoFactor" />
+          <NuxtSwitch v-model="security.twoFactor" />
         </div>
 
         <!-- Update Button -->
         <div class="flex justify-end pt-2">
-            <UButton 
+            <NuxtButton 
                 size="lg" 
                 color="primary" 
                 :loading="isSaving"
@@ -50,9 +50,9 @@ async function saveSecurity() {
                 icon="i-lucide-save"
             >
                 Update Security Settings
-            </UButton>
+            </NuxtButton>
         </div>
       </div>
-    </UCard>
+    </NuxtCard>
   </div>
 </template>

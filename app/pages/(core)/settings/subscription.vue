@@ -10,7 +10,7 @@ const subscription = reactive({
   <div class="space-y-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Subscription & Billing</h2>
 
-    <UCard :ui="{ body: { padding: 'p-0 sm:p-0' } }">
+    <NuxtCard :ui="{ body: { padding: 'p-0 sm:p-0' } }">
       <div class="p-6 space-y-6">
         <!-- Current Plan -->
         <div class="flex items-center justify-between">
@@ -21,7 +21,7 @@ const subscription = reactive({
             <p class="text-sm text-gray-500 mt-1" v-else>Next billing on {{ subscription.nextBilling }}</p>
           </div>
           <div v-if="subscription.plan === 'free'" class="hidden sm:block">
-            <UButton size="xl" color="primary" icon="i-lucide-zap">Upgrade to Pro</UButton>
+            <NuxtButton size="xl" color="primary" icon="i-lucide-zap">Upgrade to Pro</NuxtButton>
           </div>
         </div>
         
@@ -42,10 +42,10 @@ const subscription = reactive({
         </div>
 
         <div class="flex flex-col gap-3">
-          <UButton v-if="subscription.plan === 'free'" block size="lg" color="primary" class="sm:hidden">Upgrade to Pro</UButton>
-          <UButton variant="link" color="gray" block class="text-gray-500">Manage Subscription</UButton>
+          <NuxtButton v-if="subscription.plan === 'free'" block size="lg" color="primary" class="sm:hidden">Upgrade to Pro</NuxtButton>
+          <NuxtButton variant="link" color="gray" block class="text-gray-500">Manage Subscription</NuxtButton>
         </div>
       </div>
-    </UCard>
+    </NuxtCard>
   </div>
 </template>

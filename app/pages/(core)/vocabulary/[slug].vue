@@ -66,7 +66,7 @@ async function startScenario() {
 
 <template>
   <div v-if="pending" class="flex justify-center py-20">
-      <UIcon name="i-lucide-loader-2" class="animate-spin w-10 h-10 text-primary-500" />
+      <NuxtIcon name="i-lucide-loader-2" class="animate-spin w-10 h-10 text-primary-500" />
   </div>
   <div v-else-if="word" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
     <!-- Breadcrumb / Back -->
@@ -143,16 +143,16 @@ async function startScenario() {
       <!-- Sidebar / Stats -->
       <div class="space-y-6">
         <!-- Mastery Card -->
-        <UCard :ui="{ body: { padding: 'p-6' } }">
+        <NuxtCard :ui="{ body: { padding: 'p-6' } }">
           <div class="text-center space-y-4">
             <h3 class="text-sm font-semibold text-gray-500 uppercase">Current Mastery</h3>
             <div class="flex justify-center gap-2">
               <div v-for="i in 3" :key="i" class="w-3 h-10 rounded-full transition-all duration-500" :class="i <= word.mastery ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-700'" />
             </div>
             <p class="text-sm text-gray-400">Level {{ word.mastery }}/3</p>
-            <UButton block color="gray" variant="solid" icon="i-lucide-dumbbell">Practice This Word</UButton>
+            <NuxtButton block color="gray" variant="solid" icon="i-lucide-dumbbell">Practice This Word</NuxtButton>
           </div>
-        </UCard>
+        </NuxtCard>
 
         <!-- Related/Action -->
         <div class="bg-linear-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white text-center space-y-4 shadow-lg">
@@ -161,7 +161,7 @@ async function startScenario() {
             <h3 class="font-bold text-lg">AI Scenario</h3>
             <p class="text-white/80 text-sm">Generate a conversation utilizing this word.</p>
           </div>
-          <UButton 
+          <NuxtButton 
             :loading="loadingScenario"
             @click="startScenario" 
             color="white" 
@@ -170,7 +170,7 @@ async function startScenario() {
             class="text-indigo-600"
           >
             {{ loadingScenario ? 'Generating...' : 'Start Scenario' }}
-          </UButton>
+          </NuxtButton>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ async function startScenario() {
       <NuxtIcon name="i-lucide-search-x" class="w-8 h-8 text-gray-400" />
     </div>
     <h3 class="text-lg font-medium text-gray-900 dark:text-white">Word not found</h3>
-    <UButton to="/vocabulary/list" color="gray" variant="ghost">Return to list</UButton>
+    <NuxtButton to="/vocabulary/list" color="gray" variant="ghost">Return to list</NuxtButton>
   </div>
 </template>
 

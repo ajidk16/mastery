@@ -26,7 +26,7 @@ async function savePrivacy() {
   <div class="space-y-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Privacy & Data</h2>
     
-    <UCard>
+    <NuxtCard>
       <div class="space-y-6">
         <div class="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-lg flex gap-3">
           <NuxtIcon name="i-lucide-shield-check" class="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
@@ -41,12 +41,12 @@ async function savePrivacy() {
             <p class="font-medium text-gray-900 dark:text-white">Allow Audio Analysis</p>
             <p class="text-sm text-gray-500">Required for pronunciation feedback.</p>
           </div>
-          <UToggle v-model="privacy.audioRecording" color="success" />
+          <NuxtSwitch v-model="privacy.audioRecording" color="success" />
         </div>
 
         <!-- Update Button -->
         <div class="flex justify-end pt-2">
-            <UButton 
+            <NuxtButton 
                 size="lg" 
                 color="primary" 
                 :loading="isSaving"
@@ -54,16 +54,16 @@ async function savePrivacy() {
                 icon="i-lucide-save"
             >
                 Update Privacy Settings
-            </UButton>
+            </NuxtButton>
         </div>
 
         <hr class="border-gray-100 dark:border-gray-800" />
         
         <div class="space-y-3">
-          <UButton variant="outline" color="gray" block icon="i-lucide-download">Download My Data</UButton>
-          <UButton variant="ghost" color="red" block icon="i-lucide-trash-2" class="opacity-75 hover:opacity-100">Delete Account</UButton>
+          <NuxtButton variant="outline" color="gray" block icon="i-lucide-download">Download My Data</NuxtButton>
+          <NuxtButton variant="ghost" color="red" block icon="i-lucide-trash-2" class="opacity-75 hover:opacity-100">Delete Account</NuxtButton>
         </div>
       </div>
-    </UCard>
+    </NuxtCard>
   </div>
 </template>

@@ -92,7 +92,7 @@ function playAudio() {
             <span
               class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 dark:bg-primary-900/20 text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-widest border border-primary-100 dark:border-primary-900/30"
             >
-              {{ currentCard.type }}
+              {{ currentCard?.type }}
             </span>
             <button
               @click.stop="playAudio"
@@ -113,10 +113,10 @@ function playAudio() {
             <h2
               class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight"
             >
-              {{ currentCard.word }}
+              {{ currentCard?.word }}
             </h2>
             <p class="text-gray-400 font-mono text-lg">
-              {{ currentCard.phonetic }}
+              {{ currentCard?.phonetic }}
             </p>
           </div>
 
@@ -143,7 +143,7 @@ function playAudio() {
             <p
               class="text-lg text-gray-700 dark:text-gray-300 font-medium leading-relaxed mb-8"
             >
-              {{ currentCard.definition }}
+              {{ currentCard?.definition }}
             </p>
 
             <h3
@@ -156,7 +156,7 @@ function playAudio() {
             >
               <p
                 class="text-xl md:text-2xl text-gray-900 dark:text-white font-serif leading-relaxed"
-                v-html="currentCard.context"
+                v-html="currentCard?.context"
               ></p>
             </div>
           </div>
@@ -174,7 +174,7 @@ function playAudio() {
                   :key="i"
                   class="w-6 h-2 rounded-full"
                   :class="
-                    i <= currentCard.mastery
+                    i <= Number(currentCard?.mastery)
                       ? 'bg-green-500'
                       : 'bg-gray-200 dark:bg-gray-700'
                   "
@@ -182,13 +182,13 @@ function playAudio() {
               </div>
             </div>
 
-            <UButton
+            <NuxtButton
               @click.stop="nextCard"
               size="lg"
               class="gradient-primary px-6 rounded-full shadow-lg shadow-primary-500/20"
             >
               Next Word
-            </UButton>
+            </NuxtButton>
           </div>
         </div>
       </div>

@@ -25,7 +25,7 @@ const filteredVocab = computed(() => {
         <p class="text-gray-500 dark:text-gray-400">Your personal dictionary and progress.</p>
       </div>
       <div class="w-full sm:w-72">
-        <UInput
+        <NuxtInput
           v-model="searchQuery"
           icon="i-lucide-search"
           placeholder="Search words..."
@@ -33,7 +33,7 @@ const filteredVocab = computed(() => {
           :ui="{ icon: { trailing: { pointer: '' } } }"
         >
           <template #trailing>
-            <UButton
+            <NuxtButton
               v-show="searchQuery !== ''"
               color="gray"
               variant="link"
@@ -42,7 +42,7 @@ const filteredVocab = computed(() => {
               @click="searchQuery = ''"
             />
           </template>
-        </UInput>
+        </NuxtInput>
       </div>
     </div>
 
@@ -54,7 +54,7 @@ const filteredVocab = computed(() => {
         :to="`/vocabulary/${item.id}`"
         class="group block"
       >
-        <UCard 
+        <NuxtCard 
           :ui="{ body: { padding: 'p-6' }, ring: '', shadow: 'shadow-sm hover:shadow-md' }" 
           class="h-full border border-gray-200 dark:border-gray-800 hover:border-primary-300 dark:hover:border-primary-700 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
         >
@@ -81,7 +81,7 @@ const filteredVocab = computed(() => {
                <span class="text-xs text-gray-400" v-if="item.category">• {{ item.category }}</span>
             </div>
           </div>
-        </UCard>
+        </NuxtCard>
       </NuxtLink>
     </div>
 

@@ -35,7 +35,7 @@ async function savePreferences() {
   <div class="space-y-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Learning Preferences</h2>
     
-    <UCard :ui="{ body: { padding: 'p-6' } }">
+    <NuxtCard :ui="{ body: { padding: 'p-6' } }">
       <div class="space-y-8">
         <!-- Daily Goal -->
         <div class="space-y-4">
@@ -46,7 +46,7 @@ async function savePreferences() {
             </div>
             <span class="text-xl font-bold text-primary-600 dark:text-primary-400">{{ preferences.dailyGoal }} min</span>
           </div>
-          <URange
+          <NuxtRange
             v-model="preferences.dailyGoal"
             :min="5"
             :max="60"
@@ -129,7 +129,7 @@ async function savePreferences() {
 
         <!-- Update Button -->
         <div class="flex justify-end pt-4">
-            <UButton 
+            <NuxtButton 
                 size="lg" 
                 color="primary" 
                 :loading="isSaving"
@@ -137,10 +137,10 @@ async function savePreferences() {
                 icon="i-lucide-save"
             >
                 Update Preferences
-            </UButton>
+            </NuxtButton>
         </div>
 
       </div>
-    </UCard>
+    </NuxtCard>
   </div>
 </template>

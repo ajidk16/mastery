@@ -55,7 +55,7 @@ const sections = [
 
         <!-- Logout in sidebar -->
         <div class="px-4">
-             <UButton
+             <NuxtButton
                 color="gray"
                 variant="ghost" 
                 class="w-full justify-start text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 px-0"
@@ -65,7 +65,7 @@ const sections = [
                      <NuxtIcon name="i-lucide-log-out" class="w-4 h-4" />
                 </div>
                 Log Out
-             </UButton>
+             </NuxtButton>
         </div>
       </nav>
 

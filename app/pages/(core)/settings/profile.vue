@@ -40,7 +40,7 @@ async function saveProfile() {
       <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Profile</h2>
     </div>
 
-    <UCard :ui="{ body: { padding: 'p-0 sm:p-0' }, ring: '', shadow: 'shadow-lg shadow-gray-200/50 dark:shadow-none', background: 'bg-white dark:bg-gray-900' }" class="overflow-hidden border border-gray-100 dark:border-gray-800">
+    <NuxtCard :ui="{ body: { padding: 'p-0 sm:p-0' }, ring: '', shadow: 'shadow-lg shadow-gray-200/50 dark:shadow-none', background: 'bg-white dark:bg-gray-900' }" class="overflow-hidden border border-gray-100 dark:border-gray-800">
       <!-- Header Background -->
       <div class="h-32 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20"></div>
 
@@ -49,7 +49,7 @@ async function saveProfile() {
           <!-- Avatar -->
           <div class="relative group shrink-0">
             <div class="p-1 rounded-full bg-white dark:bg-gray-900">
-              <UAvatar
+              <NuxtAvatar
                 :src="profile.avatarUrl"
                 :alt="profile.name"
                 size="3xl"
@@ -65,7 +65,7 @@ async function saveProfile() {
           <!-- Name & Info -->
           <div class="flex-1 w-full space-y-2 mb-2">
             <div class="flex items-center justify-between">
-              <UInput
+              <NuxtInput
                 v-model="profile.name"
                 variant="none"
                 size="xl"
@@ -73,7 +73,7 @@ async function saveProfile() {
                 :ui="{ padding: { xl: 'px-0 py-1' } }"
                 placeholder="Your Name"
               />
-              <UButton variant="ghost" color="gray" icon="i-lucide-edit-2" class="opacity-50 hover:opacity-100" />
+              <NuxtButton variant="ghost" color="gray" icon="i-lucide-edit-2" class="opacity-50 hover:opacity-100" />
             </div>
 
             <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
@@ -108,19 +108,19 @@ async function saveProfile() {
           <!-- Goal -->
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">My Learning Goal</label>
-            <UTextarea
+            <NuxtTextarea
               v-model="profile.goal"
               autoresize
-              :rows="2"
+              :rows="4"
               placeholder="Why are you learning English?"
-              class="bg-white dark:bg-gray-900"
-              :ui="{ color: { white: { outline: 'shadow-none ring-1 ring-gray-200 dark:ring-gray-800 focus:ring-2 focus:ring-primary-500' } } }"
+              class="bg-white dark:bg-gray-900 w-full border"
+
             />
           </div>
 
           <!-- Update Button -->
           <div class="flex justify-end pt-2">
-             <UButton 
+             <NuxtButton 
                 size="lg" 
                 color="primary" 
                 :loading="isSaving"
@@ -128,11 +128,11 @@ async function saveProfile() {
                 icon="i-lucide-save"
              >
                 Update Profile
-             </UButton>
+             </NuxtButton>
           </div>
 
         </div>
       </div>
-    </UCard>
+    </NuxtCard>
   </div>
 </template>
