@@ -96,6 +96,7 @@ const pricing = {
           </NuxtLink>
 
           <!-- CTA -->
+          <div class="flex items-center gap-4">
           <NuxtLink to="/register">
             <NuxtButton
               size="lg"
@@ -105,6 +106,16 @@ const pricing = {
               <span class="sm:hidden">Daftar</span>
             </NuxtButton>
           </NuxtLink>
+          <NuxtLink to="/dashboard">
+            <NuxtButton
+              size="lg"
+              class="gradient-secondary border-0 shadow-lg shadow-secondary-500/25 hover:shadow-xl hover:shadow-secondary-500/30 transition-all"
+            >
+              <span class="hidden sm:inline">Dashboard</span>
+              <span class="sm:hidden">Dashboard</span>
+            </NuxtButton>
+          </NuxtLink>
+          </div>
         </div>
       </div>
     </header>

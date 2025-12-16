@@ -124,7 +124,7 @@ watch(
     >
       <!-- Logo -->
       <div class="p-6">
-        <NuxtLink to="/dashboard" class="flex items-center gap-3 group">
+        <NuxtLink to="/" class="flex items-center gap-3 group">
           <div
             class="w-10 h-10 rounded-xl bg-linear-to-br from-primary-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/20 group-hover:scale-105 transition-transform"
           >
