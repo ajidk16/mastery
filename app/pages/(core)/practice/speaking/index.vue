@@ -3,81 +3,95 @@ definePageMeta({
   layout: 'dashboard'
 })
 
+// Max 5 topics as per UX rule
 const topics = [
   {
     id: 1,
-    title: 'Daily Conversation',
-    description: 'Casual chats about weather, hobbies, and plans.',
-    levels: ['A1', 'A2'],
-    image: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400',
-    color: 'from-green-400 to-emerald-600'
+    title: 'Ordering Coffee',
+    role: 'Customer',
+    context: 'You are at a busy cafe in London. Order a latte and asking for a pastry recommendation.',
+    level: 'Beginner',
+    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=600',
+    color: 'text-orange-500'
   },
   {
     id: 2,
-    title: 'Business English',
-    description: 'Meetings, presentations, and professional etiquette.',
-    levels: ['B1', 'B2'],
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=400',
-     color: 'from-blue-400 to-indigo-600'
+    title: 'Job Interview',
+    role: 'Candidate',
+    context: 'Answer "Tell me about yourself" and describe your biggest strength.',
+    level: 'Intermediate',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600',
+    color: 'text-blue-500'
   },
    {
     id: 3,
-    title: 'Travel Survival',
-    description: 'Airport, hotel check-in, and asking for directions.',
-    levels: ['A2', 'B1'],
-    image: 'https://images.unsplash.com/photo-1504150558240-0b4fd8946624?auto=format&fit=crop&q=80&w=400',
-     color: 'from-orange-400 to-red-600'
+    title: 'Hotel Check-in',
+    role: 'Guest',
+    context: 'You have a reservation but want to upgrade to a room with a sea view.',
+    level: 'Intermediate',
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=600',
+    color: 'text-indigo-500'
+  },
+   {
+    id: 4,
+    title: 'Asking Directions',
+    role: 'Tourist',
+    context: 'You are lost in New York. Ask a stranger how to get to Central Park.',
+    level: 'Beginner',
+    image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=600',
+    color: 'text-green-500'
   }
 ]
 </script>
 
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center gap-4">
-      <NuxtLink to="/practice" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-          <NuxtIcon name="i-lucide-arrow-left" class="w-5 h-5 text-gray-600 dark:text-gray-300" />
-      </NuxtLink>
+  <div class="space-y-8">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Speaking Topics</h1>
-        <p class="text-gray-500 dark:text-gray-400">Choose a scenario</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Speaking Scenarios</h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Pick a role and start talking in seconds.</p>
       </div>
     </div>
 
-    <div class="grid sm:grid-cols-2 gap-6">
+    <!-- Topic Grid (Max 4-5 items) -->
+    <div class="grid md:grid-cols-2 gap-6">
       <NuxtLink
         v-for="topic in topics"
         :key="topic.id"
         :to="`/practice/speaking/${topic.id}`"
-        class="group relative overflow-hidden rounded-2xl aspect-[4/3] flex flex-col justify-end p-6 hover-lift cursor-pointer"
+        class="group glass-card p-6 rounded-[2rem] hover:border-primary-500/30 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300 flex flex-col h-full"
       >
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0">
-           <img :src="topic.image" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="" />
-           <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+        <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+                 <div class="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0">
+                     <img :src="topic.image" class="w-full h-full object-cover" alt="" />
+                 </div>
+                 <div>
+                     <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary-600 transition-colors">
+                        {{ topic.title }}
+                     </h3>
+                     <span :class="topic.color" class="text-xs font-bold uppercase tracking-wider">
+                        {{ topic.level }}
+                     </span>
+                 </div>
+            </div>
+            
+            <div class="w-8 h-8 rounded-full bg-gray-50 dark:bg-gray-800 flex items-center justify-center group-hover:bg-primary-500 group-hover:text-white transition-colors">
+                <NuxtIcon name="i-lucide-arrow-up-right" class="w-4 h-4" />
+            </div>
         </div>
 
-        <div class="relative z-10">
-           <div class="flex flex-wrap gap-2 mb-3">
-              <span 
-                v-for="level in topic.levels" 
-                :key="level"
-                class="px-2 py-0.5 rounded text-xs font-bold bg-white/20 text-white backdrop-blur-md"
-              >
-                {{ level }}
-              </span>
-           </div>
-           
-           <h3 class="text-xl font-bold text-white mb-1 group-hover:text-primary-200 transition-colors">
-              {{ topic.title }}
-           </h3>
-           <p class="text-gray-200 text-sm line-clamp-2 mb-4 opacity-90">
-              {{ topic.description }}
-           </p>
+        <div class="flex-1 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 mb-4">
+             <p class="text-xs font-bold text-gray-400 uppercase mb-1">Your Role: {{ topic.role }}</p>
+             <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                {{ topic.context }}
+             </p>
+        </div>
 
-           <div class="flex items-center gap-2 text-white font-medium text-sm group-hover:translate-x-1 transition-transform">
-              Start Practice
-              <NuxtIcon name="i-lucide-arrow-right" class="w-4 h-4" />
-           </div>
+        <div class="flex items-center gap-2 text-primary-600 dark:text-primary-400 text-sm font-medium">
+             <NuxtIcon name="i-lucide-play-circle" class="w-5 h-5" />
+             Start Practice
         </div>
       </NuxtLink>
     </div>
